@@ -19,14 +19,6 @@ def bubble_sort(arr):
             
     return arr
 
-# Example usage:
-if __name__ == "__main__":
-    sample_list = [64, 34, 25, 12, 22, 11, 90]
-    print("Original list:", sample_list)
-    
-    sorted_list = bubble_sort(sample_list)
-    print("Sorted list:  ", sorted_list)
-
 
 
 
@@ -47,10 +39,61 @@ def insertion_sort(arr):
         
     return arr
 
-# Example usage:
-if __name__ == "__main__":
-    sample_list = [12, 11, 13, 5, 6]
-    print("Original list:", sample_list)
+
+def selection_sort(arr, verbose=False):
+    # Sorts a list in-place using the Selection Sort algorithm.
+    n = len(arr)
     
-    sorted_list = insertion_sort(sample_list)
-    print("Sorted list:  ", sorted_list)
+    for i in range(n):
+        # 1. Assume the first unsorted element is the minimum
+        min_index = i
+        
+        # 2. Scan the rest of the unsorted elements to find the actual minimum
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        
+        # 3. Swap the minimum element with the first unsorted element
+        if min_index != i:
+            arr[i], arr[min_index] = arr[min_index], arr[i]
+            if verbose:
+                print(f"Step {i+1}: Swapped index {min_index} and {i} -> {arr}")
+        else:
+            if verbose:
+                print(f"Step {i+1}: Element {arr[i]} is already in position -> {arr}")
+                
+    return arr
+
+
+def merge_sort(arr):
+    # Base case: if the list has 1 or 0 elements, it is already sorted
+    if len(arr) <= 1:
+        return arr
+
+    # Find the middle point and split the list
+    mid = len(arr) // 2
+    left_half = merge_sort(arr[:mid])
+    right_half = merge_sort(arr[mid:])
+
+    # Merge the sorted halves and return the result
+    return merge(left_half, right_half)
+
+
+def merge(left, right):
+    sorted_list = []
+    i = j = 0
+
+    # Compare elements from both lists and build the sorted list
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            sorted_list.append(left[i])
+            i += 1
+        else:
+            sorted_list.append(right[j])
+            j += 1
+
+    # Append any leftover elements from the left or right list
+    sorted_list.extend(left[i:])
+    sorted_list.extend(right[j:])
+
+    return sorted_list
