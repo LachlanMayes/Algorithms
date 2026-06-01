@@ -97,3 +97,63 @@ def merge(left, right):
     sorted_list.extend(right[j:])
 
     return sorted_list
+
+
+
+def quicksort(arr):
+    # Base case: arrays with 0 or 1 element are already sorted
+    if len(arr) <= 1:
+        return arr
+    
+    # Choose a pivot (we will use the middle element here)
+    pivot = arr[len(arr) // 2]
+    
+    # Partition the elements into three lists
+    left = [x for x in arr if x < pivot]      # Elements smaller than pivot
+    middle = [x for x in arr if x == pivot]   # Elements equal to pivot
+    right = [x for x in arr if x > pivot]     # Elements greater than pivot
+    
+    # Recursively sort the left and right, and combine them
+    return quicksort(left) + middle + quicksort(right)
+
+
+def heapify(arr, n, i):
+    """
+    To heapify a subtree rooted with node i which is an index in arr[].
+    n is size of heap.
+    """
+    largest = i          # Initialize largest as root
+    left = 2 * i + 1     # left child index = 2*i + 1
+    right = 2 * i + 2    # right child index = 2*i + 2
+
+    # See if left child of root exists and is greater than root
+    if left < n and arr[left] > arr[largest]:
+        largest = left
+
+    # See if right child of root exists and is greater than root
+    if right < n and arr[right] > arr[largest]:
+        largest = right
+
+    # Change root, if needed
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]  # Swap
+
+        # Recursively heapify the affected sub-tree
+        heapify(arr, n, largest)
+
+
+def heap_sort(arr):
+    n = len(arr)
+
+    # Phase 1: Build a maxheap.
+    # We start from the last non-leaf node and work backwards to the root.
+    for i in range(n // 2 - 1, -1, -1):
+        heapify(arr, n, i)
+
+    # Phase 2: One by one extract elements
+    for i in range(n - 1, 0, -1):
+        # Move current root to end (swap the largest element with the last element)
+        arr[i], arr[0] = arr[0], arr[i]
+        
+        # Call max heapify on the reduced heap
+        heapify(arr, i, 0)
