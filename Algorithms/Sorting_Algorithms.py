@@ -157,3 +157,24 @@ def heap_sort(arr):
         
         # Call max heapify on the reduced heap
         heapify(arr, i, 0)
+
+
+def shell_sort(arr):
+    n = len(arr)
+    gap = n // 2
+
+    while gap > 0:
+        for i in range(gap, n):
+            temp = arr[i]
+            j = i 
+            # Shift earlier gap-sorted elements up until the correct location for arr[i] is found
+            while j >= gap and arr[j - gap] > temp:
+                arr[j] = arr[j - gap]
+                j -= gap
+            
+            # Put temp (the original arr[i]) in its correct location
+            arr[j] = temp
+        gap //= 2
+    return arr
+
+
